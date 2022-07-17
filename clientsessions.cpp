@@ -7,7 +7,7 @@ ClientSessions::ClientSessions()
 }
 
 int ClientSessions::createNewClientSocket(){
-    QLocalSocket * newClient = new QLocalSocket();
+    LocalClientSocket * newClient = new LocalClientSocket();
     clientNumber += 1;
     clientSessions[clientNumber] = newClient;
     return clientNumber;
@@ -15,13 +15,26 @@ int ClientSessions::createNewClientSocket(){
 
 
 void ClientSessions::connectClientToServer(int clientNumber){
-    QLocalSocket * client = clientSessions[clientNumber];
+    LocalClientSocket * client = clientSessions[clientNumber];
     qDebug()<<Q_FUNC_INFO<<"new client looking for connection to server";
     client->connectToServer();
 }
 
 
-QLocalSocket * ClientSessions::getClientSession(int clientNumber){
+LocalClientSocket * ClientSessions::getClientSession(int clientNumber){
 
     return clientSessions[clientNumber];
+}
+
+LocalClientSocket *ClientSessions::localClientSocket() const
+{
+    return m_localClientSocket;
+}
+
+void ClientSessions::setLocalClientSocket(LocalClientSocket *newLocalClientSocket)
+{
+    if (m_localClientSocket == newLocalClientSocket)
+        return;
+    m_localClientSocket = newLocalClientSocket;
+    emit localClientSocketChanged();
 }

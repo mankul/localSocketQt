@@ -8,16 +8,25 @@
 class ClientSessions: public QObject
 {
     Q_OBJECT
+
 public:
+
+    Q_PROPERTY(LocalClientSocket * localClientSocket READ localClientSocket WRITE setLocalClientSocket NOTIFY localClientSocketChanged)
     ClientSessions();
     Q_INVOKABLE int createNewClientSocket();
-    Q_INVOKABLE QLocalSocket * getClientSession(int);
+    Q_INVOKABLE LocalClientSocket * getClientSession(int);
     Q_INVOKABLE void connectClientToServer(int);
 
-private:
-    QMap<int, QLocalSocket *> clientSessions;
-    int clientNumber;
+    LocalClientSocket *localClientSocket() const;
+    void setLocalClientSocket(LocalClientSocket *newLocalClientSocket);
 
+signals:
+    void localClientSocketChanged();
+
+private:
+    QMap<int, LocalClientSocket *> clientSessions;
+    int clientNumber;
+    LocalClientSocket *m_localClientSocket;
 };
 
 

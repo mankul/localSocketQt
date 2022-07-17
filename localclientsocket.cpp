@@ -3,6 +3,7 @@
 LocalClientSocket::LocalClientSocket()
 {
     clientSocket = new QLocalSocket();
+    qDebug()<<"new client socket created";
     connect(clientSocket, &QLocalSocket::connected, this, & LocalClientSocket::onNewConnection);
 }
 

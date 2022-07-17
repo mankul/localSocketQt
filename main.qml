@@ -12,15 +12,13 @@ Window {
     height: 480
     visible: true
     title: qsTr("Hello World")
+
     property variant clientList : []
     property int clientNumber: 0
 
     LocalSocketServer{
         id: localSocketServer
     }
-//    LocalSocketClient{
-//        id: localSocketClient
-//    }
 
     ClientSessions{
         id: clientSessions
@@ -30,18 +28,13 @@ Window {
         id: clientModel
     }
 
-//    function initiateClient(){
-//        console.log("client initialized");
-//        localSocketClient.connectToServer();
-//        clientText.text = localSocketClient.getServerPath()
-//    }
 
     function createNewClient(){
         console.log("create new client")
         clientNumber = clientSessions.createNewClientSocket()
         clientList.push(clientNumber)
+        clientModel.append(clientSessions.getClientSession[clientNumber])
         clientSessions.connectClientToServer(clientNumber)
-
     }
 
     Row{
@@ -58,6 +51,11 @@ Window {
                 text: client.text
             }
             ListView{
+                model: clientList
+                delegate: Text {
+
+                    text: qsTr("text")
+                }
 
             }
 
